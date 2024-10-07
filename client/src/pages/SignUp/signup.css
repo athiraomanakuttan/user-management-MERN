@@ -1,0 +1,15 @@
+.signUp-form{
+    display: flex;
+    flex-direction: column;
+    gap : 1rem;
+}
+.signUp-form input, button{
+    height: 40px;
+    border-radius: 5px;
+    padding-left: 1rem;
+}
+.signup-heading{
+    font-size: 34px;
+    font-weight: 600;
+    color: brown;
+}
