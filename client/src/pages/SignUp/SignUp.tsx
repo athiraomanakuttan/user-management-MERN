@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-// import googleIcon from '../../assets/google-icon.webp';
-// import loadingIcon from '../../assets/loading.gif';
+import googleIcon from '../../assets/google-icon.webp';
+import loadingIcon from '../../assets/loading.gif';
 import './signup.css'
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -93,6 +93,7 @@ const SignUp = () => {
     }
   };
 
+
   return (
     <div>
       <div className="formDiv bg-slate-200 max-w-[40%] mx-auto mt-10 p-6 rounded-xl">
@@ -134,11 +135,11 @@ const SignUp = () => {
             className="signup-btn bg-red-800 text-white"
             disabled={loading}
           >
-            {/* {loading ? <img src={loadingIcon} className="inline w-6" /> : "Sign Up"} */}
-            signup
+            {loading ? <img src={loadingIcon} className="inline w-6" /> : "Sign Up"}
+            
           </button>
-          <button className="signup-google-btn">
-            {/* <img src={googleIcon} alt="Google Icon" className="w-10 inline" /> */}
+          <button className="signup-google-btn bg-white">
+            <img src={googleIcon} alt="Google Icon" className="w-10 inline" />
             Signup with Google
           </button>
         </form>
