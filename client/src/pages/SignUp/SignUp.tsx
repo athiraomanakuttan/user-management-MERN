@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import googleIcon from '../../assets/google-icon.webp';
+import {  useState } from "react";
 import loadingIcon from '../../assets/loading.gif';
 import './signup.css'
 import {  toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { signUpStart, signUpSuccess, signUpFailed} from '../../../redux/user/userSlice'
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import OAuth from "../../components/Navbar/OAuth";
 
 
 type formData = {
@@ -29,10 +29,7 @@ const SignUp = () => {
   const dispach = useDispatch();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    toast("Welcome to SignUp page!");
-  }, []);
-
+ 
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
@@ -138,10 +135,10 @@ const SignUp = () => {
             {loading ? <img src={loadingIcon} className="inline w-6" /> : "Sign Up"}
             
           </button>
-          <button className="signup-google-btn bg-white">
-            <img src={googleIcon} alt="Google Icon" className="w-10 inline" />
-            Signup with Google
-          </button>
+          <OAuth/>
+          
+      <p className="text-white"> Already Have an Account ? <Link to='/login' className="text-red-700">Login</Link></p>
+          
         </form>
       </div>
     </div>

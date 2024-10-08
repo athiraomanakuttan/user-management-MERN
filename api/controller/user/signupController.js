@@ -11,7 +11,7 @@ export const userSignup = async (req, res, next) => {
     const hashedPassword = await bcrypt.hash(password, salt)
     try {
         const newUser = await userCollection.insertMany({ userName, userEmail, password: hashedPassword })
-        res.status(200).json({ message: "User added successfully" });
+        res.status(200).json(newUser);
     }
     catch (err) {
         next(err)

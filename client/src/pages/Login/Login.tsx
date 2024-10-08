@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './Login.css';
 import { useDispatch } from 'react-redux';
 import { loginStart, loginFailed, loginSucess } from '../../../redux/user/userSlice';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 type formDataType = {
@@ -71,6 +71,7 @@ const Login = () => {
                     />
                     <button className="signin-btn bg-red-800 text-white">Login</button>
                 </form>
+                <p className='text-white mt-3'>Don't Have an Account ? <Link  to='/signup' className='text-red-800'> Register</Link></p>
             </div>
         </div>
     );
