@@ -4,8 +4,10 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import app from '../../firebase'
 import { loginSucess } from '../../../redux/user/userSlice'
 import { useDispatch } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 const OAuth = () => {
     const dispach = useDispatch()
+    const navigate = useNavigate()
     const handleAuth = async()=>{
         try{
             const provider =  new GoogleAuthProvider()
@@ -13,17 +15,19 @@ const OAuth = () => {
             const result = await signInWithPopup(auth, provider)
             if(result)
             {
-                const res = await fetch('/google/auth',{
+                const res = await fetch('http://localhost:8000/api/user/google/auth',{
                     method:"POST",
                     headers:{'Content-Type':'application/json'},
                     body:JSON.stringify({
-                        user : result.user.displayName ,
+                        userName : result.user.displayName ,
                         userEmail : result.user.email,
                         profilePic : result.user.photoURL
                     }) 
                 })
                 const data = res.json()
                 dispach(loginSucess(data))
+                navigate('/')
+
             }
         }
         catch(err)

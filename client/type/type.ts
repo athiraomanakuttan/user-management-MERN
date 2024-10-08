@@ -3,7 +3,7 @@ export type currentUserType = {
     userName?:string,
     userEmail?:string,
     password?:string,
-    profilePicture?: string
+    profilePic?: string
 }
 
 export type ErrorType = {

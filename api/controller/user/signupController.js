@@ -3,6 +3,7 @@ import { userCollection } from '../../models/userSchema.js';
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import generateor from 'generate-password'
 dotenv.config()
 
 export const userSignup = async (req, res, next) => {
@@ -40,5 +41,38 @@ export const userLogin = async (req, res) => {
     } catch (err) {
         console.error("Server error:", err);
         return res.status(500).json({ message: "Internal server error", error: err.message });
+    }
+}
+
+
+export const googleSignUp = async(req,res)=>{
+    const { userName, userEmail, profilePic } = req.body
+    try{
+        const existingUser = await userCollection.findOne({userEmail})
+        if(existingUser)
+        {
+            const token = jwt.sign({id: existingUser._id}, process.env.JWT_SECRET,{expiresIn: '1h'})
+            res.cookie('token',token , {httpOnly: true, secure: true, sameSite: 'strict'})
+            res.status(200).json(existingUser)
+        }
+        else
+        {
+            const generatedPassword = generateor.generate({
+                length:12,
+                numbers:true,
+                symbols:true
+            })
+            const salt =10;
+    console.log("=======>", generatedPassword)
+
+            const hashedPassword = await bcrypt.hash(generatedPassword,salt)
+            const displayName = userName.split(" ").join("") + Math.floor(Math.random() * 1000)
+            const newUser = await userCollection.insertMany({userName: displayName, password:hashedPassword, userEmail, profilePic})
+            res.status(200).json(newUser)
+        }
+    } catch(err)
+    {
+        console.log(err)
+        res.status(500).json(err)
     }
 }
