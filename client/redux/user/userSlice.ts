@@ -1,5 +1,6 @@
 import {createSlice } from '@reduxjs/toolkit'
 import { currentUserType } from '../../type/type'
+import { act } from 'react'
 
 type initialType ={
     currentUser : currentUserType | null ,
@@ -31,6 +32,19 @@ const userSlice = createSlice({
             state.loading = false
             state.error=action.payload
             state.currentUser = null
+        },
+        loginStart : (state)=>{
+            state.loading = true;
+        },
+        loginSucess : (state,action)=>{
+            state.loading= false
+            state.currentUser=action.payload
+            state.error=""
+        },
+        loginFailed : (state,action)=>{
+            state.loading= false
+            state.currentUser = null,
+            state.error = action.payload
         }
     }
 
@@ -40,7 +54,10 @@ export const  {
     // user signup 
     signUpStart,
     signUpSuccess,
-    signUpFailed
+    signUpFailed,
+    loginStart,
+    loginFailed,
+    loginSucess
 } = userSlice.actions
 
 export default userSlice.reducer;

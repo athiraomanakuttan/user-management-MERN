@@ -17,29 +17,28 @@ export const userSignup = async (req, res, next) => {
         next(err)
     }
 }
-export const userLogin = async (req,res,next)=>{
-    const { userEmail,password}= req.body;
-    
-    try{
-        const validUser = await userCollection.findOne({ userEmail});
-        if(!validUser)
-            next({message : "User Not Found"});
-        else
-        {
-            const validPassword = await bcrypt.compare(password, validUser.password);
+export const userLogin = async (req, res) => {
+    const { userEmail, password } = req.body;
 
-            if(!validPassword)
-                next({message: "Incorrect Password"}) 
-            else
-            {
-                const token = jwt.sign({id: validUser._id},process.env.JWT_SECRET)
-                res.cookie('token',token, {httpOnly: true}).status(200).json(validUser)
-            }
+    try {
+        const validUser = await userCollection.findOne({ userEmail });
+        if (!validUser) {
+            console.log("User Not found");
+            return res.status(404).json({ message: "User not Found" });
         }
-    }
-    catch(err)
-    {
-        console.log(err)
-        next(err)
+
+        const validPassword = await bcrypt.compare(password, validUser.password);
+        if (!validPassword) {
+            console.log("Incorrect password");
+            return res.status(401).json({ message: "Incorrect password" });
+        }
+
+        const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+        res.cookie('token', token, { httpOnly: true, secure: true, sameSite: 'strict' })
+           .status(200).json(validUser);
+
+    } catch (err) {
+        console.error("Server error:", err);
+        return res.status(500).json({ message: "Internal server error", error: err.message });
     }
 }
