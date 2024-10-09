@@ -63,7 +63,6 @@ export const googleSignUp = async(req,res)=>{
                 symbols:true
             })
             const salt =10;
-    console.log("=======>", generatedPassword)
 
             const hashedPassword = await bcrypt.hash(generatedPassword,salt)
             const displayName = userName.split(" ").join("") + Math.floor(Math.random() * 1000)

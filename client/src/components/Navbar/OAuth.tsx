@@ -24,7 +24,7 @@ const OAuth = () => {
                         profilePic : result.user.photoURL
                     }) 
                 })
-                const data = res.json()
+                const data = await res.json()
                 dispach(loginSucess(data))
                 navigate('/')
 
