@@ -5,6 +5,7 @@ import Login from "./pages/Login/Login";
 import PrivateRoute from "./components/PrivateRoute";
 import Profile from "./pages/Profile/Profile";
 import LoginPage from "./pages/Admin/Login/Login";
+import HomePage from './pages/Admin/Home/Home'
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
       />
       <Route path="/login" element={<Login />} />
       <Route path="/admin/login" element={<LoginPage />} />
+      <Route path="/admin/home" element={<HomePage/>} />
     </Routes>
   );
 }

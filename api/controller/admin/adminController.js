@@ -19,7 +19,8 @@ export const adminLogin = (req, res) => {
       httpOnly: true,       
       maxAge: 3600000, 
     });
-    res.status(200).json({ message: "Login Successful" });
+    res.status(200).json({ message: "Login Successful",
+     });
   } else {
     res.status(401).json("Invalid credentials");
   }
