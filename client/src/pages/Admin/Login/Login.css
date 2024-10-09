@@ -1,0 +1,27 @@
+.main-body{
+    background: linear-gradient(#387478 ,#23333d ,#283944);
+    color : #fff
+}
+.form-container
+{
+    background: #ffffff40;
+    width: 50%;
+}
+.form-container h1{
+    font-size: 34px;
+    text-align: center;
+}
+.form-container form{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.form-container input, button{
+    height: 40px;
+    padding-left: 25px;
+    border-radius: 5px;
+}
+.form-container button
+{
+    background: #387478;
+}
