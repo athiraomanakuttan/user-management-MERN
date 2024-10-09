@@ -39,3 +39,11 @@ export const updateUserData = async (req, res) => {
     res.status(500).json("Internal server error");
   }
 };
+
+
+export const logoutUser = (req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+    });
+    res.status(200).json({ message: "Logged out successfully" });
+};
