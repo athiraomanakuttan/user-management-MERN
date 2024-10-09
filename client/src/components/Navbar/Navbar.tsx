@@ -18,7 +18,7 @@ const Navbar = () => {
               Profile
             </Link>
             <Link
-              to="/sign-out"
+              to=""
               className=" hover:underline hover:text-lg cursor-pointer transition-all"
             >
               Sign out
