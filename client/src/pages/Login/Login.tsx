@@ -31,7 +31,10 @@ const Login = () => {
         try {
             const res = await fetch('http://localhost:8000/api/user/login', {
                 method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include', // This allows cookies to be sent
+                headers: {
+                    'Content-Type': 'application/json'
+                },
                 body: JSON.stringify(formData)
             });
             const data = await res.json();

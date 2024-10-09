@@ -5,13 +5,13 @@ import { updateUserFailed, updateUserStart, updateUserSuccess } from "../../../r
 import { Link } from "react-router-dom";
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from 'firebase/storage';
 import app from '../../firebase';
+import { toast } from "react-toastify";
 
 type formDataType = {
   profilePic: any;
   userName: string;
   userEmail: string;
   newPassword: string;
-  confirmPassword: string;
 };
 type imgType = File | undefined;
 
@@ -26,8 +26,7 @@ const Profile = () => {
     profilePic: currentUser.profilePic,
     userName: currentUser.userName,
     userEmail: currentUser.userEmail,
-    newPassword: "",
-    confirmPassword: ""
+    newPassword: ""
   });
 
   useEffect(() => {
@@ -75,9 +74,12 @@ const Profile = () => {
     dispatch(updateUserStart());
 
     try {
-      const res = await fetch("http://localhost:8000/api/user/updateUser", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      const res = await fetch(`http://localhost:8000/api/user/updateUser/${currentUser._id}`, {
+        method: 'POST',
+        credentials: 'include', // This allows cookies to be sent
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify(formData)
       });
       const data = await res.json();
@@ -85,9 +87,11 @@ const Profile = () => {
       if (!res.ok) {
         dispatch(updateUserFailed("Something went wrong. Try Again"));
       } else {
+        toast.success("Profile Updated successfully")
         dispatch(updateUserSuccess(data));
       }
     } catch (err) {
+      toast.error("Something went wrong try again")
       dispatch(updateUserFailed(err));
     }
   };
@@ -108,7 +112,7 @@ const Profile = () => {
           className="w-36 self-center profile-icon mx-auto rounded-full object-cover cursor-pointer"
           onClick={() => fileRef.current?.click()}
         />
-       <p>
+       
        <div className="text-center">
   {imgError && (
     <span className="text-red-700 text-center">Error Uploading Image</span>
@@ -121,7 +125,6 @@ const Profile = () => {
   )}
 </div>
 
-       </p>
         <input
           type="file"
           ref={fileRef}
@@ -155,18 +158,10 @@ const Profile = () => {
         <input
           type="password"
           name="newPassword"
-          required
           value={formData.newPassword}
           onChange={handleChange}
         />
-        <p>Confirm Password</p>
-        <input
-          type="password"
-          name="confirmPassword"
-          required
-          value={formData.confirmPassword}
-          onChange={handleChange}
-        />
+        
 
         <div className="btn-section flex items-center justify-between">
           <button className="bg-red-700 p-2 text-white">Delete account</button>

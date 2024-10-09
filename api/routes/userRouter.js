@@ -1,6 +1,7 @@
 import express from "express";
 import { userLogin, userSignup ,googleSignUp} from '../controller/user/signupController.js'
 import { updateUserData } from "../controller/user/userController.js";
+import { userVerification } from "../middleware/userVerification.js";
 const router = express.Router();
 
 // user login and signup 
@@ -9,6 +10,6 @@ router.post('/login', userLogin)
 router.post('/google/auth', googleSignUp)
 
 // User details update and delete
-router.post('/updateUser',updateUserData)
+router.post('/updateUser/:id',userVerification,updateUserData)
 
 export default router;

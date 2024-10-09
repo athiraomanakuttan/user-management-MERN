@@ -16,8 +16,11 @@ const OAuth = () => {
             if(result)
             {
                 const res = await fetch('http://localhost:8000/api/user/google/auth',{
-                    method:"POST",
-                    headers:{'Content-Type':'application/json'},
+                    method: 'POST',
+                    credentials: 'include', 
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body:JSON.stringify({
                         userName : result.user.displayName ,
                         userEmail : result.user.email,

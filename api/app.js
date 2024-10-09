@@ -1,11 +1,15 @@
 import express from 'express';
 import userRouter from './routes/userRouter.js'
 import connectDB from './Configuration/dbConnection.js';
-import cors  from 'cors'
+import cookieParser from 'cookie-parser';
+import cors from 'cors'
 const app = express()
 app.use(express.json())
-app.use(cors())
-
+app.use(cors({
+  origin: 'http://localhost:5173', // Allow requests from your frontend
+  credentials: true // Allow credentials (cookies)
+}));
+app.use(cookieParser())
 
 app.use('/api/user',userRouter)
 //error handling middleware
