@@ -29,6 +29,18 @@ const adminSlice  = createSlice({
         adminLoginFailed : (status,action)=>{
             status.adminLoading = false
             status.error= action.payload
+        },
+        accessUseListLoading:(status)=>{
+            status.adminLoading= true
+        },
+        accessUseListSucess:(status,action)=>{
+            status.adminLoading= false;
+            status.userDetails= action.payload
+            status.error= false
+        },
+        accessUserListFailed : (status,action)=>{
+            status.adminLoading= false;
+            status.error= action.payload
         }
     }
 })
@@ -37,7 +49,10 @@ const adminSlice  = createSlice({
 export const { 
 adminLoginStart,
 adminLoginSuccess,
-adminLoginFailed
+adminLoginFailed,
+accessUseListLoading,
+accessUseListSucess,
+accessUserListFailed
 } = adminSlice.actions
 
 
