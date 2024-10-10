@@ -6,9 +6,9 @@ const router = express.Router()
 
 
 router.post('/login',adminLogin)
-router.get('/get-user-list' ,getUserList)
-router.post('/update-user/:id',updateUser)
-router.post('/delete-user/:id',deleteUser)
+router.get('/get-user-list',adminVerification ,getUserList)
+router.post('/update-user/:id',adminVerification,updateUser)
+router.post('/delete-user/:id',adminVerification,deleteUser)
 
 
 export default router;

@@ -13,12 +13,12 @@ export const adminLogin = (req, res) => {
   ) {
     const payload = { email }; 
 
-    const token = jwt.sign(payload, process.env.ADIMI_JWT_SECRET, { expiresIn: '1h' });
-
-    res.cookie('token', token, {
-      httpOnly: true,       
-      maxAge: 3600000, 
-    });
+    const token = jwt.sign({ id: email }, process.env.ADIMI_JWT_SECRET, { expiresIn: '1h' });
+  
+        res.cookie('token', token, {
+            httpOnly: true,
+           
+        })
     res.status(200).json({ message: "Login Successful",
      });
   } else {
