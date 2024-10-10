@@ -2,6 +2,7 @@ import dotenv from 'dotenv'
 import jwt from 'jsonwebtoken'
 import { userCollection } from '../../models/userSchema.js';
 import { ObjectId } from 'mongodb'
+import bcrypt  from 'bcryptjs';
 dotenv.config()
 
 export const adminLogin = (req, res) => {
@@ -97,3 +98,36 @@ export const getUserList = async (req, res) => {
         })
     }
   }
+
+  export const addNewUser = async (req, res) => {
+    const { userName, userEmail, password } = req.body;
+    try {
+      const existingUser = await userCollection.findOne({ userEmail });
+      if (existingUser) {
+        return res.status(400).json({ message: 'User with this email already exists' });
+      }
+      const hashedPassword = await bcrypt.hash(password, 10);
+      const newUser = {
+        userName,
+        userEmail,
+        password: hashedPassword, 
+      };
+  
+      const savedUser = await userCollection.insertMany(newUser)
+      const userId = savedUser._id; 
+      const token = jwt.sign(
+        { id: userId, userEmail: newUser.userEmail }, 
+        process.env.JWT_SECRET, 
+        { expiresIn: '1h' } 
+      );
+  
+      res.status(201).json({
+        message: 'User added successfully',
+        user: { id: userId, userName: newUser.userName, userEmail: newUser.userEmail }, 
+        token, 
+      });
+    } catch (error) {
+      console.error('Error adding new user:', error);
+      res.status(500).json({ message: 'Server error' });
+    }
+  };
