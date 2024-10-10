@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import './Home.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { accessUseListLoading, accessUseListSucess, accessUserListFailed, updateUserFailed, updateUserStart } from '../../../../redux/admin/adminSlice';
+import { accessUseListLoading, accessUseListSucess, accessUserListFailed, deleteUserFailed, deleteUserStart, deleteUserSuccess, updateUserFailed, updateUserStart } from '../../../../redux/admin/adminSlice';
 import { RootState } from '../../../../app/user/store';
 import { currentUserType } from '../../../../type/type';
 import { updateUserSuccess } from '../../../../redux/user/userSlice';
+import { toast } from 'react-toastify';
 
 const Home = () => {
   const [editUserData, setEditUserData] = useState<currentUserType | null>(null);  // Initialize as null
@@ -41,6 +42,44 @@ const Home = () => {
     setEditUserData(data);  // Set the edit user data here
     setIsModalOpen(true);   // Open the modal after setting the user data
   };
+
+  const handleDelete = async (userId: string | undefined) => {
+    if (!userId) {
+      toast.error("Something went wrong");
+      return;
+    }
+    const isConfirmed = window.confirm("Are you sure you want to delete this user?");
+    if (!isConfirmed) {
+      return; // Exit if the user clicks "Cancel"
+    }
+    else
+  {  dispatch(deleteUserStart());
+  
+    try {
+      const res = await fetch(`http://localhost:8000/api/admin/delete-user/${userId}`, {
+        method: 'POST', // You may want to use 'DELETE' method if supported by your backend
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include credentials if required
+      });
+  
+      const data = await res.json(); // Await the JSON parsing
+      if (!res.ok) {
+        dispatch(deleteUserFailed(res.statusText));
+        toast.error("Failed to delete the user");
+      } else {
+        // Ensure you're working with the correct type for userDetails (array of user objects)
+        const updatedData = userDetails.filter((user:currentUserType) => user._id !== userId);
+  
+        dispatch(deleteUserSuccess(updatedData));
+        toast.success("User deleted successfully");
+      }
+    } catch (err) {
+      console.error("Error during deletion", err);
+      toast.error("Something went wrong");
+      dispatch(deleteUserFailed(err));
+    }}
+  };
+  
 
   const handleUserUpdate = async () => {
     if (!editUserData) {
@@ -175,7 +214,7 @@ const Home = () => {
                     </div>
                   </td>
                   <td className="px-6 py-4">
-                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline">
+                    <button className="font-medium text-blue-600 dark:text-blue-500 hover:underline" onClick={()=>handleDelete(data._id)}>
                       <i className="fa-solid fa-trash text-red-700"></i>
                     </button>
                   </td>

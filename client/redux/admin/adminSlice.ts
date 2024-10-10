@@ -53,6 +53,18 @@ const adminSlice  = createSlice({
         updateUserFailed:(status, action)=>{
             status.adminLoading = false;
             status.error= action.payload
+        },
+        deleteUserStart : (status)=>{
+            status.adminLoading= true;
+        },
+        deleteUserSuccess:(status,action)=>{
+            status.adminLoading = false;
+            status.error= false;
+            status.userDetails=action.payload
+        },
+        deleteUserFailed : (state,action)=>{
+            state.adminLoading= false
+            state.error= action.payload
         }
     }
 })
@@ -67,7 +79,10 @@ accessUseListSucess,
 accessUserListFailed,
 updateUserFailed,
 updateUserStart,
-updateUserSuccess
+updateUserSuccess,
+deleteUserFailed,
+deleteUserStart,
+deleteUserSuccess
 } = adminSlice.actions
 
 
