@@ -6,7 +6,8 @@ const Navbar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [btnState, setBtnState] = useState<boolean>(false);
-  const { currentUser } = useSelector((state: any) => state.user);
+  let { currentUser } = useSelector((state: any) => state.user);
+  currentUser = currentUser.user
   const handleLogout = async () => {
     try {
       const response = await fetch('http://localhost:8000/api/user/sign-out', {
@@ -48,7 +49,7 @@ const Navbar = () => {
           </ul>
         )}
 
-        {currentUser ? (
+        {currentUser.profilePic ? (
           <img
             src={currentUser.profilePic}
             alt=""

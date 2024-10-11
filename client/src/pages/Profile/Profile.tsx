@@ -18,7 +18,11 @@ type imgType = File | undefined;
 const Profile = () => {
   const dispatch = useDispatch();
   const fileRef = useRef<HTMLInputElement | null>(null);
-  const { currentUser } = useSelector((state: any) => state.user);
+  let { currentUser } = useSelector((state: any) =>{
+   return  state.user
+  });
+   currentUser = currentUser.user
+  console.log("new user data ",currentUser)
   const [image, setImage] = useState<imgType>(undefined);
   const [imagePercentage, setImagePercentage] = useState<number>(0);
   const [imgError, setImageError] = useState<Boolean>(false);
@@ -74,6 +78,7 @@ const Profile = () => {
     dispatch(updateUserStart());
 
     try {
+      console.log("currentUser",currentUser)
       const res = await fetch(`http://localhost:8000/api/user/updateUser/${currentUser._id}`, {
         method: 'POST',
         credentials: 'include', // This allows cookies to be sent
@@ -106,12 +111,21 @@ const Profile = () => {
         className="profile-form mx-auto border w-[50%] p-10 bg-[#eee3e0f1]"
         onSubmit={handleSubmit}
       >
-        <img
-          src={formData.profilePic}
+        {
+          formData.profilePic ?
+          <img
+          src={formData.profilePic }
           alt="Profile"
           className="w-36 self-center profile-icon mx-auto rounded-full object-cover cursor-pointer"
           onClick={() => fileRef.current?.click()}
         />
+          :
+          <i
+            className="w-36 fa-solid fa-circle-user text-3xl text-black self-center profile-icon mx-auto"
+            onClick={() => fileRef.current?.click()}
+          ></i>
+        }
+        
        
        <div className="text-center">
   {imgError && (

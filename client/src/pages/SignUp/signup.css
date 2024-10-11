@@ -11,5 +11,15 @@
 .signup-heading{
     font-size: 34px;
     font-weight: 600;
-    color: brown;
+    color: white;
+}
+.signup-container{
+    background: linear-gradient(rgba(240, 196, 196, 0.644), rgba(240, 221, 221, 0.932)), 
+    url('../../assets/bg-desk.jpg');
+background-blend-mode: color;
+background-position: center;
+background-size: cover;
+width: 100%;
+height: 100vh;
+padding-top: 2%;
 }

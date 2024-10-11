@@ -8,7 +8,6 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import OAuth from "../../components/Navbar/OAuth";
 
-
 type formData = {
   userName: string;
   userEmail: string;
@@ -93,7 +92,7 @@ const SignUp = () => {
 
 
   return (
-    <div>
+    <div className="signup-container">
       <div className="formDiv bg-slate-200 max-w-[40%] mx-auto mt-10 p-6 rounded-xl">
         <h1 className="text-center m-4 signup-heading">Sign Up</h1>
         <form className="signUp-form" autoComplete="off" onSubmit={handleSubmit}>
@@ -138,7 +137,7 @@ const SignUp = () => {
           </button>
           <OAuth/>
           
-      <p className="text-white"> Already Have an Account ? <Link to='/login' className="text-red-700">Login</Link></p>
+      <p className="text-white"> Already Have an Account ? <Link to='/login' className="">Login</Link></p>
           
         </form>
       </div>

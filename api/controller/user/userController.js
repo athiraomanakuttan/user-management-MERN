@@ -3,7 +3,7 @@ import { userCollection } from '../../models/userSchema.js';
 
 export const updateUserData = async (req, res) => {
   if (req.user.id !== req.params.id) {
-    return res.status(401).json("Unauthorized: User is not valid");
+    return res.status(401).json({ message: "Unauthorized: User is not valid" });
   }
 
   const { userEmail, userName, newPassword, profilePic } = req.body;
@@ -33,17 +33,21 @@ export const updateUserData = async (req, res) => {
     // Exclude password from the response
     const { password, ...rest } = updatedUser._doc;
 
-    res.status(200).json(rest);
+    res.status(200).json({
+      message: "User data updated successfully",
+      user: rest,
+    });
   } catch (err) {
     console.error(err);
-    res.status(500).json("Internal server error");
+    res.status(500).json({ message: "Internal server error" });
   }
 };
 
-
 export const logoutUser = (req, res) => {
-    res.clearCookie('token', {
-        httpOnly: true,
-    });
-    res.status(200).json({ message: "Logged out successfully" });
+  res.clearCookie('token', {
+    httpOnly: true,
+  });
+  res.status(200).json({
+    message: "Logged out successfully",
+  });
 };
